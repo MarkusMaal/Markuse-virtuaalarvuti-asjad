@@ -26,6 +26,7 @@ public partial class MainWindow : Window
     
     private void Refresh()
     {
+        this.Title = $"{Program.scriptConfig.SSH_NAME}@{Program.scriptConfig.SSH_IP} (virtuaalarvuti: {Program.scriptConfig.VM_NAME})";
         new Thread(() =>
         {
             ReloadItems();

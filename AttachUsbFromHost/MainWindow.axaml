@@ -3,47 +3,68 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="using:AttachUsbFromHost"
+        xmlns:controls="clr-namespace:Material.Styles.Controls;assembly=Material.Styles"
         mc:Ignorable="d" Width="939" Height="519"
         x:Class="AttachUsbFromHost.MainWindow" MinWidth="380" MinHeight="460"
         x:DataType="local:MainWindowModel" IsEnabled="False" Loaded="Window_Loaded_1"
         Title="{Binding Title}" Icon="Assets/mas_general.ico">
-  <Grid ColumnDefinitions="*,150" Margin="10,20,5,20" RowDefinitions="25,*">
-    <Label Name="TopText" Grid.Row="0">Saadavalolevad USB seadmed</Label>
-    <ListBox Name="DeviceList" Grid.Row="1" IsEnabled="False"></ListBox>
-    <Grid Name="SideButtons" Grid.Column="1" Grid.Row="1" RowDefinitions="*,128" IsVisible="False">
-      <StackPanel Margin="10,0">
-        <Button Name="ConnectButton" Click="ConnectButton_Click">Ühenda</Button>
-        <Button Name="RemoveButton" Click="RemoveButton_Click">Eemalda</Button>
-        <Button Name="ReloadButton" Click="ReloadButton_Click">Värskenda</Button>
-        <Button Name="ConfigButton" Click="ConfigButton_Click">Konfigureeri</Button>
-        <Button Name="USBLookup" Click="LookupButton_Click">PID/VID otsing</Button>
-        <Label>Suurendus</Label>
-        <StackPanel Orientation="Horizontal">
-          <Button Name="MinusButton" Click="MinusButton_Click">-</Button>
-          <Button Name="PlusButton" Click="PlusButton_Click">+</Button>
+  <Grid RowDefinitions="Auto,*">
+    <controls:ColorZone Name="TopText" Height="56" Padding="12" Grid.ColumnSpan="2" Grid.Row="0" Mode="PrimaryLight">
+      <Grid ColumnDefinitions="Auto,24,*">
+        <TextBlock Grid.Column="2" Classes="Headline6" VerticalAlignment="Center" Text="Saadavalolevad USB seadmed" />
+      </Grid>
+    </controls:ColorZone>
+    <Grid ColumnDefinitions="*,150" Margin="10,20,5,20" RowDefinitions="0,*" Grid.Row="1">
+      <ListBox Name="DeviceList" Grid.Row="1" IsEnabled="False" Padding="0">
+        <ListBox.Background>
+          <SolidColorBrush>#a000</SolidColorBrush>
+        </ListBox.Background>
+        <ListBox.Styles>
+          <Style Selector="ListBoxItem /template/ ContentPresenter">
+            <Setter Property="Height" Value="25"></Setter>
+          </Style>
+          <Style Selector="ListBoxItem TextBlock">
+            <Setter Property="Margin" Value="0"></Setter>
+            <Setter Property="VerticalAlignment" Value="Top"></Setter>
+          </Style>
+        </ListBox.Styles>
+      </ListBox>
+      <Grid Name="SideButtons" Grid.Column="1" Grid.Row="1" RowDefinitions="*,128" IsVisible="False">
+        <StackPanel Margin="10,0">
+          <Button Classes="accent" Name="ConnectButton" Click="ConnectButton_Click">Ühenda</Button>
+          <Button Name="RemoveButton" Click="RemoveButton_Click">Eemalda</Button>
+          <Button Name="ReloadButton" Click="ReloadButton_Click">Värskenda</Button>
+          <Button Name="ConfigButton" Click="ConfigButton_Click">Konfigureeri</Button>
+          <Button Name="USBLookup" Click="LookupButton_Click">PID/VID otsing</Button>
+          <Label>Suurendus</Label>
+          <StackPanel Orientation="Horizontal">
+            <Button Name="MinusButton" Click="MinusButton_Click">-</Button>
+            <Button Name="PlusButton" Click="PlusButton_Click">+</Button>
+            <StackPanel.Styles>
+              <Style Selector="Button">
+                <Setter Property="HorizontalAlignment" Value="Left" />
+                <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                <Setter Property="Margin" Value="0,10,15,10" />
+              </Style>
+            </StackPanel.Styles>
+          </StackPanel>
           <StackPanel.Styles>
             <Style Selector="Button">
-              <Setter Property="HorizontalAlignment" Value="Left" />
-              <Setter Property="HorizontalContentAlignment" Value="Stretch" />
-              <Setter Property="Margin" Value="0,10,15,10" />
+              <Setter Property="HorizontalAlignment" Value="Stretch" />
+              <Setter Property="HorizontalContentAlignment" Value="Center" />
+              <Setter Property="Margin" Value="0,0,0,10" />
             </Style>
           </StackPanel.Styles>
         </StackPanel>
-        <StackPanel.Styles>
-          <Style Selector="Button">
-            <Setter Property="HorizontalAlignment" Value="Stretch" />
-            <Setter Property="HorizontalContentAlignment" Value="Center" />
-            <Setter Property="Margin" Value="0,0,0,10" />
-          </Style>
-        </StackPanel.Styles>
-      </StackPanel>
-      <Image Source="/Assets/mas_virtualpc.png" Width="128" Grid.Row="1"></Image>
+        <Image Source="/Assets/mas_virtualpc.png" Width="128" Grid.Row="1"></Image>
+      </Grid>
+      <Grid Grid.ColumnSpan="2" Grid.RowSpan="2" Name="Loader">
+        <StackPanel VerticalAlignment="Center" Width="300">
+          <Label Margin="0,10" HorizontalAlignment="Center">Info kogumine...</Label>
+          <ProgressBar IsIndeterminate="True"></ProgressBar>
+        </StackPanel>
+      </Grid>
     </Grid>
-    <Grid Grid.ColumnSpan="2" Grid.RowSpan="2" Name="Loader">
-      <StackPanel VerticalAlignment="Center" Width="300">
-        <Label Margin="0,10" HorizontalAlignment="Center">Info kogumine...</Label>
-        <ProgressBar IsIndeterminate="True"></ProgressBar>
-      </StackPanel>
-    </Grid>
+
   </Grid>
 </Window>
