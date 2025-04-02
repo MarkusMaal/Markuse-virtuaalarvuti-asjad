@@ -1,0 +1,41 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="using:AttachUsbFromHost"
+        mc:Ignorable="d" Width="939" Height="519"
+        x:Class="AttachUsbFromHost.MainWindow"
+        x:DataType="local:MainWindowModel"
+        Title="{Binding Title}" Icon="Assets/mas_general.ico">
+  <Grid ColumnDefinitions="*,150" Margin="10,20,5,20" RowDefinitions="25,*">
+    <Label Grid.Row="0">Saadavalolevad USB seadmed</Label>
+    <ListBox Name="DeviceList" Grid.Row="1" IsEnabled="False"></ListBox>
+    <Grid Grid.Column="1" Grid.Row="1" RowDefinitions="*,128">
+      <StackPanel Margin="10,0">
+        <Button Name="ConnectButton" Click="ConnectButton_Click">Ühenda</Button>
+        <Button Name="RemoveButton" Click="RemoveButton_Click">Eemalda</Button>
+        <Button Name="ReloadButton" Click="ReloadButton_Click">Värskenda</Button>
+        <Label>Suurendus</Label>
+        <StackPanel Orientation="Horizontal">
+          <Button Name="MinusButton" Click="MinusButton_Click">-</Button>
+          <Button Name="PlusButton" Click="PlusButton_Click">+</Button>
+          <StackPanel.Styles>
+            <Style Selector="Button">
+              <Setter Property="HorizontalAlignment" Value="Left" />
+              <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+              <Setter Property="Margin" Value="0,10,15,10" />
+            </Style>
+          </StackPanel.Styles>
+        </StackPanel>
+        <StackPanel.Styles>
+          <Style Selector="Button">
+            <Setter Property="HorizontalAlignment" Value="Stretch" />
+            <Setter Property="HorizontalContentAlignment" Value="Center" />
+            <Setter Property="Margin" Value="0,0,0,10" />
+          </Style>
+        </StackPanel.Styles>
+      </StackPanel>
+      <Image Source="/Assets/mas_virtualpc.png" Width="128" Grid.Row="1"></Image>
+    </Grid>
+  </Grid>
+</Window>
