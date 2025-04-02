@@ -49,7 +49,7 @@ namespace AttachUsbFromHost
                 this.SSH_NAME = "markus";
                 this.SSH_IP = "192.168.1.201";
                 this.VM_NAME = "win10";
-                this.SCRIPT_LOCATION = "~/.softweb/virtsh_attach_usb/";
+                this.SCRIPT_LOCATION = "~/.softweb/virsh_attach_usb/";
                 Save(masv_root);
             }
         }

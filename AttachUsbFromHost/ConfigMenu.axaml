@@ -1,0 +1,38 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d" Width="500" Height="320" CanResize="False" 
+        x:Class="AttachUsbFromHost.ConfigMenu" Icon="Assets/mas_general.ico"
+        Title="Konfiguratsioon" WindowStartupLocation="CenterOwner">
+  <StackPanel Margin="30,50" VerticalAlignment="Center">
+    <Grid ColumnDefinitions="150,*" Margin="0,0,0,20">
+      <TextBlock Grid.Column="0" VerticalAlignment="Center">
+        SSH kasutajanimi
+      </TextBlock>
+      <TextBox Name="NameField" Grid.Column="1"></TextBox>
+    </Grid>
+    <Grid ColumnDefinitions="150,*" Margin="0,0,0,20">
+      <TextBlock Grid.Column="0" VerticalAlignment="Center">
+        IP aadress
+      </TextBlock>
+      <TextBox Name="IPField" Grid.Column="1"></TextBox>
+    </Grid>
+    <Grid ColumnDefinitions="150,*" Margin="0,0,0,20">
+      <TextBlock Grid.Column="0" VerticalAlignment="Center">
+        Virtuaalmasina nimi
+      </TextBlock>
+      <TextBox Name="VMField" Grid.Column="1"></TextBox>
+    </Grid>
+    <Grid ColumnDefinitions="150,*" Margin="0,0,0,20">
+      <TextBlock Grid.Column="0" VerticalAlignment="Center">
+        Skripti asukoht
+      </TextBlock>
+      <TextBox Name="LocationField" Grid.Column="1"></TextBox>
+    </Grid>
+    <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+      <Button Margin="0,0,10,0" Name="CancelButton" Click="Button_Click">Loobu</Button>
+      <Button Name="SaveButton" Click="Button_Click_1">Salvesta</Button>
+    </StackPanel>
+  </StackPanel>
+</Window>

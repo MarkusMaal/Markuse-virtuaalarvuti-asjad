@@ -58,12 +58,24 @@ public partial class MainWindow : Window
     public void ReloadItems()
     {
         Devices = [];
+        Dispatcher.UIThread.Post(() =>
+        {
+            Loader.IsVisible = true;
+            SideButtons.IsVisible = false;
+            DeviceList.IsVisible = false;
+            TopText.IsVisible = false;
+        });
         string output = Program.GetStdOut("lsusb");
         Dispatcher.UIThread.Post(() =>
         {
+            this.IsEnabled = true;
+            Loader.IsVisible = false;
+            SideButtons.IsVisible = true;
+            DeviceList.IsVisible = true;
+            TopText.IsVisible = true;
             if (output == "")
             {
-                Devices = ["Hostiga ühenduse loomine nurjus."];
+                MessagePopupShow("SSH ühendus", "Hostiga ühenduse loomine nurjus", MsBox.Avalonia.Enums.ButtonEnum.Ok, MsBox.Avalonia.Enums.Icon.Error);
                 return;
             }
             else
@@ -95,6 +107,13 @@ public partial class MainWindow : Window
 #pragma warning restore CS8602 // Dereference of a possibly null reference.
             }
         }
+    }
+
+    private async void ConfigButton_Click(object? sender, Avalonia.Interactivity.RoutedEventArgs e)
+    {
+        await new ConfigMenu().ShowDialog(this);
+        Refresh();
+        
     }
 
     private void RemoveButton_Click(object? sender, Avalonia.Interactivity.RoutedEventArgs e)

@@ -42,6 +42,14 @@ class Program
             p.StartInfo.WindowStyle = ProcessWindowStyle.Hidden;
         }
         p.Start();
+        new Thread(() =>
+        {
+            // wait for 15 seconds before killing SSH
+            // if you get this 15 seconds timeout, it likely means the SSH connection is asking for a password
+            // please setup key pairs for authentication before using this application
+            Thread.Sleep(15000);
+            p?.Kill();
+        }).Start();
         // Do not wait for the child process to exit before
         // reading to the end of its redirected stream.
         p.WaitForExit();

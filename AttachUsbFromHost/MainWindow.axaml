@@ -5,16 +5,17 @@
         xmlns:local="using:AttachUsbFromHost"
         mc:Ignorable="d" Width="939" Height="519"
         x:Class="AttachUsbFromHost.MainWindow"
-        x:DataType="local:MainWindowModel"
+        x:DataType="local:MainWindowModel" IsEnabled="False"
         Title="{Binding Title}" Icon="Assets/mas_general.ico">
   <Grid ColumnDefinitions="*,150" Margin="10,20,5,20" RowDefinitions="25,*">
-    <Label Grid.Row="0">Saadavalolevad USB seadmed</Label>
+    <Label Name="TopText" Grid.Row="0">Saadavalolevad USB seadmed</Label>
     <ListBox Name="DeviceList" Grid.Row="1" IsEnabled="False"></ListBox>
-    <Grid Grid.Column="1" Grid.Row="1" RowDefinitions="*,128">
+    <Grid Name="SideButtons" Grid.Column="1" Grid.Row="1" RowDefinitions="*,128" IsVisible="False">
       <StackPanel Margin="10,0">
         <Button Name="ConnectButton" Click="ConnectButton_Click">Ühenda</Button>
         <Button Name="RemoveButton" Click="RemoveButton_Click">Eemalda</Button>
         <Button Name="ReloadButton" Click="ReloadButton_Click">Värskenda</Button>
+        <Button Name="ConfigButton" Click="ConfigButton_Click">Konfigureeri</Button>
         <Label>Suurendus</Label>
         <StackPanel Orientation="Horizontal">
           <Button Name="MinusButton" Click="MinusButton_Click">-</Button>
@@ -36,6 +37,12 @@
         </StackPanel.Styles>
       </StackPanel>
       <Image Source="/Assets/mas_virtualpc.png" Width="128" Grid.Row="1"></Image>
+    </Grid>
+    <Grid Grid.ColumnSpan="2" Grid.RowSpan="2" Name="Loader">
+      <StackPanel VerticalAlignment="Center" Width="300">
+        <Label Margin="0,10" HorizontalAlignment="Center">Info kogumine...</Label>
+        <ProgressBar IsIndeterminate="True"></ProgressBar>
+      </StackPanel>
     </Grid>
   </Grid>
 </Window>
