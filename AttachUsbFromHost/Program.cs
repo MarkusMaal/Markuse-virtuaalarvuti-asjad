@@ -10,6 +10,7 @@ class Program
 {
     public static readonly ScriptConfig scriptConfig = new();
     public static string masv_root = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile) + "/.masv";
+    public static bool connected = false;
 
     // Initialization code. Don't use any Avalonia, third-party APIs or any
     // SynchronizationContext-reliant code before AppMain is called: things aren't initialized
@@ -29,6 +30,7 @@ class Program
 
     public static string GetStdOut(string command, bool hide_window = true)
     {
+        connected = false;
         // Start the child process.
         Process p = new();
         // Redirect the output stream of the child process.
@@ -47,7 +49,11 @@ class Program
             // wait for 15 seconds before killing SSH
             // if you get this 15 seconds timeout, it likely means the SSH connection is asking for a password
             // please setup key pairs for authentication before using this application
-            Thread.Sleep(15000);
+            for (int i = 0; i < 150; i++)
+            {
+                if (connected) break;
+                Thread.Sleep(100);
+            }
             p?.Kill();
         }).Start();
         // Do not wait for the child process to exit before
@@ -56,6 +62,7 @@ class Program
         // Read the output stream first and then wait.
         string output = p.StandardOutput.ReadToEnd();
         p.WaitForExit();
+        connected = true;
         return output;
     }
 
