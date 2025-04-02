@@ -4,6 +4,13 @@ using System.Linq;
 using System.Threading;
 using MsBox.Avalonia;
 using System.Threading.Tasks;
+using System.IO;
+using Avalonia.Media.Imaging;
+using Avalonia.Media;
+using System.Diagnostics;
+using MsBox.Avalonia.Enums;
+using Tmds.DBus.Protocol;
+using System.Runtime.InteropServices;
 
 namespace AttachUsbFromHost;
 
@@ -15,7 +22,6 @@ public partial class MainWindow : Window
     {
         InitializeComponent();
         DataContext = mwm;
-        Refresh();
     }
     
     private void Refresh()
@@ -75,7 +81,7 @@ public partial class MainWindow : Window
             TopText.IsVisible = true;
             if (output == "")
             {
-                MessagePopupShow("SSH ühendus", "Hostiga ühenduse loomine nurjus", MsBox.Avalonia.Enums.ButtonEnum.Ok, MsBox.Avalonia.Enums.Icon.Error);
+                _ = MessagePopupShow("SSH ühendus", "Hostiga ühenduse loomine nurjus", MsBox.Avalonia.Enums.ButtonEnum.Ok, MsBox.Avalonia.Enums.Icon.Error);
                 return;
             }
             else
@@ -111,9 +117,17 @@ public partial class MainWindow : Window
 
     private async void ConfigButton_Click(object? sender, Avalonia.Interactivity.RoutedEventArgs e)
     {
-        await new ConfigMenu().ShowDialog(this);
+        await new ConfigMenu()
+        {
+            Background = this.Background
+        }.ShowDialog(this);
         Refresh();
-        
+    }
+
+    private async void NotVirtualPc()
+    {
+        await MessagePopupShow("USB sisestamise tööriist", "Tegu ei ole virtuaalse arvutiga", ButtonEnum.Ok, MsBox.Avalonia.Enums.Icon.Error);
+        this.Close();
     }
 
     private void RemoveButton_Click(object? sender, Avalonia.Interactivity.RoutedEventArgs e)
@@ -128,17 +142,17 @@ public partial class MainWindow : Window
                 this.IsEnabled = true;
                 if (status.Contains("successfully"))
                 {
-                    MessagePopupShow("USB ühendaja", "Seade eemaldati edukalt!", MsBox.Avalonia.Enums.ButtonEnum.Ok, MsBox.Avalonia.Enums.Icon.Success);
+                    _ = MessagePopupShow("USB ühendaja", "Seade eemaldati edukalt!", MsBox.Avalonia.Enums.ButtonEnum.Ok, MsBox.Avalonia.Enums.Icon.Success);
                 }
                 else
                 {
-                    MessagePopupShow("USB ühendaja", "Seadme eemaldamine virtuaalarvutist nurjus.", MsBox.Avalonia.Enums.ButtonEnum.Ok, MsBox.Avalonia.Enums.Icon.Error);
+                    _ = MessagePopupShow("USB ühendaja", "Seadme eemaldamine virtuaalarvutist nurjus.", MsBox.Avalonia.Enums.ButtonEnum.Ok, MsBox.Avalonia.Enums.Icon.Error);
                 }
             });
         }).Start();
     }
 
-    private async void MessagePopupShow(string title, string message, MsBox.Avalonia.Enums.ButtonEnum buttons, MsBox.Avalonia.Enums.Icon icon)
+    private async Task MessagePopupShow(string title, string message, MsBox.Avalonia.Enums.ButtonEnum buttons, MsBox.Avalonia.Enums.Icon icon)
     {
         var box = MessageBoxManager.GetMessageBoxStandard(title, message, buttons, icon, WindowStartupLocation.CenterOwner);
         _ = await box.ShowAsPopupAsync(this);
@@ -156,13 +170,50 @@ public partial class MainWindow : Window
                 this.IsEnabled = true;
                 if (status.Contains("successfully"))
                 {
-                    MessagePopupShow("USB ühendaja", "Seade ühendati edukalt!", MsBox.Avalonia.Enums.ButtonEnum.Ok, MsBox.Avalonia.Enums.Icon.Success);
+                    _ = MessagePopupShow("USB ühendaja", "Seade ühendati edukalt!", MsBox.Avalonia.Enums.ButtonEnum.Ok, MsBox.Avalonia.Enums.Icon.Success);
                 }
                 else
                 {
-                    MessagePopupShow("USB ühendaja", "Seadme ühendamine nurjus.", MsBox.Avalonia.Enums.ButtonEnum.Ok, MsBox.Avalonia.Enums.Icon.Error);
+                    _ = MessagePopupShow("USB ühendaja", "Seadme ühendamine nurjus.", MsBox.Avalonia.Enums.ButtonEnum.Ok, MsBox.Avalonia.Enums.Icon.Error);
                 }
             });
         }).Start();
+    }
+
+    private void LookupButton_Click(object? sender, Avalonia.Interactivity.RoutedEventArgs e)
+    {
+        if (DeviceList.SelectedIndex < 0) return;
+        string selection = DeviceList.Items[DeviceList.SelectedIndex]!.ToString()!;
+        string[] splits = selection.Split('(');
+        string[] vidpid = splits[^1][..^1].Split(':');
+        string vid = vidpid[0];
+        string pid = vidpid[1];
+        new Process() {
+            StartInfo = {
+                FileName = $"https://devicehunt.com/view/type/usb/vendor/{vid}/device/{pid}",
+                UseShellExecute = true,
+            }
+        }.Start();
+    }
+
+    private void Window_Loaded_1(object? sender, Avalonia.Interactivity.RoutedEventArgs e)
+    {
+        if (!Directory.Exists(Program.masv_root))
+        {
+            this.IsEnabled = true;
+            this.TopText.IsVisible = false;
+            this.DeviceList.IsVisible = false;
+            this.Loader.IsVisible = false;
+            NotVirtualPc();
+            return;
+        }
+        Refresh();
+        if (File.Exists(Program.mas_root + "/bg_common.png"))
+        {
+            var _commonBg = Program.mas_root + "/bg_common.png";
+            using var ms = new FileStream(_commonBg, FileMode.Open, FileAccess.Read);
+            this.Background = new ImageBrush(new Bitmap(ms)) { Stretch = Stretch.UniformToFill };
+            ms.Close();
+        }
     }
 }

@@ -6,6 +6,9 @@
     <BuiltInComInteropSupport>true</BuiltInComInteropSupport>
     <ApplicationManifest>app.manifest</ApplicationManifest>
     <AvaloniaUseCompiledBindingsByDefault>true</AvaloniaUseCompiledBindingsByDefault>
+    <IncludeNativeLibrariesForSelfExtract>true</IncludeNativeLibrariesForSelfExtract>
+    <ApplicationIcon>Assets\mas_virtualpc.ico</ApplicationIcon>
+    <PublishTrimmed>True</PublishTrimmed>
   </PropertyGroup>
   <ItemGroup>
     <None Remove="Assets\mas_general.ico" />
@@ -14,6 +17,9 @@
   <ItemGroup>
     <AvaloniaResource Include="Assets\mas_general.ico" />
     <AvaloniaResource Include="Assets\mas_virtualpc.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Assets\mas_virtualpc.ico" />
   </ItemGroup>
 
   <ItemGroup>

@@ -4,8 +4,8 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="using:AttachUsbFromHost"
         mc:Ignorable="d" Width="939" Height="519"
-        x:Class="AttachUsbFromHost.MainWindow"
-        x:DataType="local:MainWindowModel" IsEnabled="False"
+        x:Class="AttachUsbFromHost.MainWindow" MinWidth="380" MinHeight="460"
+        x:DataType="local:MainWindowModel" IsEnabled="False" Loaded="Window_Loaded_1"
         Title="{Binding Title}" Icon="Assets/mas_general.ico">
   <Grid ColumnDefinitions="*,150" Margin="10,20,5,20" RowDefinitions="25,*">
     <Label Name="TopText" Grid.Row="0">Saadavalolevad USB seadmed</Label>
@@ -16,6 +16,7 @@
         <Button Name="RemoveButton" Click="RemoveButton_Click">Eemalda</Button>
         <Button Name="ReloadButton" Click="ReloadButton_Click">Värskenda</Button>
         <Button Name="ConfigButton" Click="ConfigButton_Click">Konfigureeri</Button>
+        <Button Name="USBLookup" Click="LookupButton_Click">PID/VID otsing</Button>
         <Label>Suurendus</Label>
         <StackPanel Orientation="Horizontal">
           <Button Name="MinusButton" Click="MinusButton_Click">-</Button>

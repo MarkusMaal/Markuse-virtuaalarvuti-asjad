@@ -10,6 +10,7 @@ class Program
 {
     public static readonly ScriptConfig scriptConfig = new();
     public static string masv_root = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile) + "/.masv";
+    public static string mas_root = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile) + "/.mas";
     public static bool connected = false;
 
     // Initialization code. Don't use any Avalonia, third-party APIs or any
