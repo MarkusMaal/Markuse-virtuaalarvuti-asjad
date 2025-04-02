@@ -9,10 +9,13 @@
     <IncludeNativeLibrariesForSelfExtract>true</IncludeNativeLibrariesForSelfExtract>
     <ApplicationIcon>Assets\mas_virtualpc.ico</ApplicationIcon>
     <PublishTrimmed>True</PublishTrimmed>
+    <Copyright>Markuse tarkvara</Copyright>
+    <Description>Võimaldab ühendada USB seadmeid vfio virtuaalse arvutiga</Description>
+    <PackageIcon>mas_virtualpc.png</PackageIcon>
+    <AssemblyVersion>1.1.1.0</AssemblyVersion>
   </PropertyGroup>
   <ItemGroup>
     <None Remove="Assets\mas_general.ico" />
-    <None Remove="Assets\mas_virtualpc.png" />
   </ItemGroup>
   <ItemGroup>
     <AvaloniaResource Include="Assets\mas_general.ico" />
@@ -33,5 +36,12 @@
       <PrivateAssets Condition="'$(Configuration)' != 'Debug'">All</PrivateAssets>
     </PackageReference>
     <PackageReference Include="MessageBox.Avalonia" Version="3.2.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="Assets\mas_virtualpc.png">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
   </ItemGroup>
 </Project>
